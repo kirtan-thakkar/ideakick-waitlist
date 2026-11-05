@@ -26,7 +26,7 @@ function doPost(e) {
         "Full Name",
         "Email Address",
         "Phone / WhatsApp",
-        "What Excites You Most"
+        "What's The Big Idea?"
       ]);
       
       var headerRange = sheet.getRange(1, 1, 1, 5);
@@ -51,7 +51,7 @@ function doPost(e) {
     var name = cleanField(data.name || "");
     var email = cleanField(data.email || "");
     var phone = cleanPhone(data.phone || "");
-    var excitement = cleanField(data.excitement || "");
+    var bigIdea = cleanField(data.big_idea || data.excitement || "");
 
     // Append lead row
     sheet.appendRow([
@@ -59,7 +59,7 @@ function doPost(e) {
       name,
       email,
       phone,
-      excitement
+      bigIdea
     ]);
 
     return ContentService

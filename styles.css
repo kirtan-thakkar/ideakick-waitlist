@@ -1,5 +1,6 @@
-/* ─── Ideakicks Design System ─────────────────────────────────────────────── */
+/* ─── Ideakicks Design System (Strict Light Mode) ─────────────────────────── */
 :root {
+  color-scheme: light;
   --font-heading: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-body: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 

@@ -26,7 +26,7 @@ const resetBtn = document.getElementById("reset-btn");
 const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const phoneInput = document.getElementById("phone");
-const excitementInput = document.getElementById("excitement");
+const bigIdeaInput = document.getElementById("big_idea") || document.getElementById("excitement");
 
 // ─── Input Sanitization & Security ─────────────────────────────────────────────
 function sanitizeText(input, maxLength = 800) {
@@ -74,8 +74,8 @@ function showError(message, inputElement = null, shouldScroll = true) {
   errorBanner.style.display = "block";
 
   // Clear previous error styles
-  [nameInput, emailInput, phoneInput, excitementInput].forEach((el) => {
-    el.classList.remove("has-error");
+  [nameInput, emailInput, phoneInput, bigIdeaInput].forEach((el) => {
+    if (el) el.classList.remove("has-error");
   });
 
   if (inputElement) {
@@ -90,8 +90,8 @@ function showError(message, inputElement = null, shouldScroll = true) {
 function clearError() {
   errorBanner.textContent = "";
   errorBanner.style.display = "none";
-  [nameInput, emailInput, phoneInput, excitementInput].forEach((el) => {
-    el.classList.remove("has-error");
+  [nameInput, emailInput, phoneInput, bigIdeaInput].forEach((el) => {
+    if (el) el.classList.remove("has-error");
   });
 }
 
@@ -180,9 +180,9 @@ nameInput.addEventListener("input", () => {
   }
 });
 
-excitementInput.addEventListener("input", () => {
-  if (excitementInput.classList.contains("has-error") && excitementInput.value.trim().length >= 5) {
-    excitementInput.classList.remove("has-error");
+bigIdeaInput.addEventListener("input", () => {
+  if (bigIdeaInput.classList.contains("has-error") && bigIdeaInput.value.trim().length >= 5) {
+    bigIdeaInput.classList.remove("has-error");
     clearError();
   }
 });
@@ -212,12 +212,12 @@ form.addEventListener("submit", async (e) => {
   const rawName = nameInput.value;
   const rawEmail = emailInput.value;
   const rawPhone = phoneInput.value;
-  const rawExcitement = excitementInput.value;
+  const rawBigIdea = bigIdeaInput.value;
 
   const name = sanitizeText(rawName, 80);
   const email = rawEmail.trim().toLowerCase();
   const phone = rawPhone.trim();
-  const excitement = sanitizeText(rawExcitement, 800);
+  const bigIdea = sanitizeText(rawBigIdea, 800);
 
   // 4. Strict Validation
   if (!name || name.length < 2) {
@@ -235,8 +235,8 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  if (!excitement || excitement.length < 5) {
-    showError("Please tell us what excites you most about Ideakicks (at least 5 characters).", excitementInput, true);
+  if (!bigIdea || bigIdea.length < 5) {
+    showError("Please tell us about your big idea (at least 5 characters).", bigIdeaInput, true);
     return;
   }
 
@@ -249,7 +249,7 @@ form.addEventListener("submit", async (e) => {
     name,
     email,
     phone,
-    excitement,
+    big_idea: bigIdea,
   };
 
   // Always save backup locally first
@@ -262,7 +262,8 @@ form.addEventListener("submit", async (e) => {
       postData.append("name", name);
       postData.append("email", email);
       postData.append("phone", phone);
-      postData.append("excitement", excitement);
+      postData.append("big_idea", bigIdea);
+      postData.append("excitement", bigIdea); // for seamless backwards-compatibility
 
       await fetch(GOOGLE_SHEET_URL, {
         method: "POST",
