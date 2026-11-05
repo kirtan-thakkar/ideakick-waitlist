@@ -309,17 +309,6 @@ body {
   to { transform: rotate(360deg); }
 }
 
-.security-note {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-size: 0.72rem;
-  color: var(--muted);
-  text-align: center;
-  padding-top: 4px;
-}
-
 /* ─── Confirmed State ─────────────────────────────────────────────────────── */
 .confirmed-state {
   display: flex;
