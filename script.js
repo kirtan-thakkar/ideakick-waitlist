@@ -9,7 +9,7 @@
 
 // ─── Configuration ─────────────────────────────────────────────────────────────
 // Replace this with your Google Apps Script Web App URL
-const GOOGLE_SHEET_URL = ""; 
+const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzVcuoMD_zwQT_wxapzhKiiYFFB9CGPkyBidVQOY1QTTWrVQS4yKdcfFN9b8vBLXVUP/exec"; 
 
 // Local storage backup key
 const STORAGE_BACKUP_KEY = "ideakicks_creator_submissions";
