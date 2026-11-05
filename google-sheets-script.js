@@ -1,30 +1,14 @@
 /**
  * ============================================================================
- * IDEAKICKS - GOOGLE APPS SCRIPT FOR CREATOR WAITLIST
+ * IDEAKICKS - GOOGLE APPS SCRIPT WEB APP (UPDATED FIELDS)
  * ============================================================================
  * 
- * Follow these 5 quick steps to connect your form to Google Sheets (takes 2 minutes):
- * 
- * 1. Open Google Sheets (https://sheets.google.com) and create a new blank spreadsheet.
- *    Name it e.g. "Ideakicks Creator Waitlist".
- * 
- * 2. In the top menu, click: Extensions > Apps Script.
- * 
- * 3. Delete any code currently in Code.gs, paste this ENTIRE file into it, and click "Save" (disk icon).
- * 
- * 4. Click the blue "Deploy" button (top right) > "New deployment".
- *    - Click the gear icon (Select type) > Choose "Web app".
- *    - Description: "Creator Waitlist Web App"
- *    - Execute as: "Me (your email)"
- *    - Who has access: "Anyone" (IMPORTANT: select Anyone so form can submit without login).
- *    - Click "Deploy".
- *    - (If prompted, click "Authorize access", choose your Google account, click "Advanced", and "Go to Untitled project (unsafe)").
- * 
- * 5. Copy the generated "Web App URL" (ends in /exec).
- *    Open script.js and paste it into:
- *    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/YOUR_ID/exec";
- * 
- * Done! Every time a creator submits, a new row appears in your Google Sheet immediately.
+ * If you ever need to re-paste into Code.gs, this handles:
+ * - Timestamp
+ * - Full Name
+ * - Email Address
+ * - Phone / WhatsApp
+ * - What Excites You Most About Ideakicks
  * ============================================================================
  */
 
@@ -35,27 +19,23 @@ function doPost(e) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     
-    // Auto-create header row if sheet is fresh
+    // Auto-create header row on empty sheet
     if (sheet.getLastRow() === 0) {
       sheet.appendRow([
         "Timestamp",
         "Full Name",
         "Email Address",
         "Phone / WhatsApp",
-        "Project Name",
-        "Prototype Stage",
-        "Details / Pitch / Link"
+        "What Excites You Most"
       ]);
       
-      // Style header row
-      var headerRange = sheet.getRange(1, 1, 1, 7);
+      var headerRange = sheet.getRange(1, 1, 1, 5);
       headerRange.setFontWeight("bold");
       headerRange.setBackground("#082D4D");
       headerRange.setFontColor("#FFFFFF");
       sheet.setFrozenRows(1);
     }
 
-    // Parse incoming data (handles both FormData and JSON)
     var data = {};
     if (e.parameter && Object.keys(e.parameter).length > 0) {
       data = e.parameter;
@@ -71,23 +51,19 @@ function doPost(e) {
     var name = data.name || "";
     var email = data.email || "";
     var phone = data.phone || "";
-    var projectName = data.project_name || "";
-    var stage = data.stage || "";
-    var details = data.details || "";
+    var excitement = data.excitement || "";
 
-    // Append new lead
+    // Append lead row
     sheet.appendRow([
       timestamp,
       name,
       email,
       phone,
-      projectName,
-      stage,
-      details
+      excitement
     ]);
 
     return ContentService
-      .createTextOutput(JSON.stringify({ result: "success", name: name }))
+      .createTextOutput(JSON.stringify({ result: "success" }))
       .setMimeType(ContentService.MimeType.JSON);
 
   } catch (error) {
@@ -101,6 +77,6 @@ function doPost(e) {
 
 function doGet(e) {
   return ContentService
-    .createTextOutput("Ideakicks Creator Waitlist API is active.")
+    .createTextOutput("Ideakicks Waitlist API is active.")
     .setMimeType(ContentService.MimeType.TEXT);
 }

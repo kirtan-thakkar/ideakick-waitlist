@@ -3,84 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ideakicks | Founding Creator Waitlist</title>
-  <meta name="description" content="India's curated launchpad for tangible hardware, consumer electronics, and physical design. Launch with 0% platform commission and milestone escrow." />
+  <title>ideakicks | Be first in line</title>
+  <meta name="description" content="A dependable way for ideas to find backing through transparent goals and structured milestones. Join the Ideakicks waitlist." />
   
-  <!-- Fontshare Clash Display & Satoshi (Identical to main website) -->
+  <!-- Fonts from Fontshare (Exact match to main ideakicks website) -->
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,700,900&display=swap" />
   
   <!-- Canvas Confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
 
-  <!-- Stylesheet -->
+  <!-- Styles -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Ambient background glow -->
-  <div class="ambient-glow" aria-hidden="true"></div>
 
-  <main class="page-container">
+  <main class="page-shell">
     
-    <!-- ── Center Header: Logo & Intro ────────────────────────────────── -->
+    <!-- ── Center Header: Exact Website Logo & Headline ───────────────── -->
     <header class="hero-header">
-      <!-- Centered Ideakicks Logo -->
-      <a href="https://ideakicks.com" class="brand-logo" aria-label="Ideakicks Home">
-        <img src="logo-mark.svg" alt="Ideakicks Logo Mark" class="logo-mark" width="34" height="42" />
-        <span class="logo-text">ideakicks<span class="logo-dot">.</span></span>
+      <!-- Centered Ideakicks Logo from main frontend -->
+      <a href="https://ideakicks.com" class="brand-link" aria-label="Ideakicks Home">
+        <img src="logo.png" alt="ideakicks" class="brand-logo" />
       </a>
 
-      <!-- Status Pill -->
-      <div class="status-pill">
-        <span class="pulse-dot">
-          <span class="ping"></span>
-          <span class="solid"></span>
-        </span>
-        <span>Founding Creator Cohort · Limited to 100 Campaigns</span>
-      </div>
-
-      <!-- Title & Subtitle -->
+      <!-- Headline matching the website hero -->
       <h1 class="hero-title">
-        Bring your physical idea to <em class="italic-highlight">life.</em>
+        Be first in <em class="hero-italic">line.</em>
       </h1>
-      <p class="hero-subtitle">
-        Ideakicks is India's launchpad for tangible craft, consumer hardware, and physical innovation. We help creators validate, fund, and manufacture real products with milestone-driven escrow protection.
-      </p>
 
-      <!-- 3 Core Founding Privileges -->
-      <div class="privileges-strip">
-        <div class="privilege-item">
-          <span class="privilege-icon">✨</span>
-          <span class="privilege-text"><strong>₹0 Platform Fee</strong> for first 100 creators</span>
-        </div>
-        <div class="privilege-item">
-          <span class="privilege-icon">🛡️</span>
-          <span class="privilege-text"><strong>48h 1-on-1 Pitch</strong> & prototype review</span>
-        </div>
-        <div class="privilege-item">
-          <span class="privilege-icon">🏭</span>
-          <span class="privilege-text"><strong>Vetted Guild</strong> tooling & supply chain</span>
-        </div>
-      </div>
+      <p class="hero-subtitle">
+        A dependable way for ideas to find backing through transparent goals, structured progress milestones, and community-driven validation. Join the waitlist to secure priority access before public launch.
+      </p>
     </header>
 
-    <!-- ── Creator Waitlist Form Container ────────────────────────────── -->
-    <section class="form-section">
+    <!-- ── Waitlist Form Card ─────────────────────────────────────────── -->
+    <section class="form-container">
       <div class="form-card">
         
-        <!-- Form State -->
-        <form id="creator-form" class="creator-form" autocomplete="on">
-          <div class="form-header">
-            <span class="form-eyebrow">CREATOR APPLICATION</span>
-            <h2 class="form-title">Join the Founding Creator Cohort</h2>
-            <p class="form-desc">
-              Fill in your details below. Our team reviews all prototypes within 48 hours.
-            </p>
+        <!-- Input Form -->
+        <form id="waitlist-form" class="waitlist-form" novalidate>
+          
+          <!-- Anti-Bot Honeypot field (hidden from real users) -->
+          <div style="position: absolute; left: -9999px; top: -9999px;" aria-hidden="true">
+            <input type="text" name="_hp_security_check" id="_hp_security_check" tabindex="-1" autocomplete="off" />
           </div>
 
-          <!-- Full Name -->
-          <div class="input-group">
-            <label for="name" class="input-label">
+          <div class="card-header">
+            <span class="card-eyebrow">PRIORITY RESERVATION</span>
+            <h2 class="card-title">Request early access</h2>
+            <p class="card-desc">Fill out your details to join the priority rollout queue.</p>
+          </div>
+
+          <!-- Alert banner for errors -->
+          <div id="error-banner" class="error-banner" style="display: none;" role="alert"></div>
+
+          <!-- Full Name Field -->
+          <div class="field-group">
+            <label for="name" class="field-label">
               Full Name <span class="req">*</span>
             </label>
             <input 
@@ -88,14 +68,16 @@
               id="name" 
               name="name" 
               required 
+              maxlength="80"
+              autocomplete="name"
               placeholder="e.g. Maya Sharma" 
-              class="text-input" 
+              class="field-input" 
             />
           </div>
 
-          <!-- Email -->
-          <div class="input-group">
-            <label for="email" class="input-label">
+          <!-- Email Address Field -->
+          <div class="field-group">
+            <label for="email" class="field-label">
               Email Address <span class="req">*</span>
             </label>
             <input 
@@ -103,14 +85,16 @@
               id="email" 
               name="email" 
               required 
+              maxlength="120"
+              autocomplete="email"
               placeholder="you@domain.com" 
-              class="text-input" 
+              class="field-input" 
             />
           </div>
 
-          <!-- Phone / WhatsApp -->
-          <div class="input-group">
-            <label for="phone" class="input-label">
+          <!-- Phone Number Field -->
+          <div class="field-group">
+            <label for="phone" class="field-label">
               Phone / WhatsApp Number <span class="req">*</span>
             </label>
             <input 
@@ -118,97 +102,62 @@
               id="phone" 
               name="phone" 
               required 
+              maxlength="20"
+              autocomplete="tel"
               placeholder="+91 98765 43210" 
-              class="text-input" 
+              class="field-input" 
             />
           </div>
 
-          <!-- Project / Product Name -->
-          <div class="input-group">
-            <label for="project_name" class="input-label">
-              Project / Product Name <span class="req">*</span>
-            </label>
-            <input 
-              type="text" 
-              id="project_name" 
-              name="project_name" 
-              required 
-              placeholder="e.g. Evo-AIR or Smart Deadbolt" 
-              class="text-input" 
-            />
-          </div>
-
-          <!-- Prototype Stage (Interactive Pills) -->
-          <div class="input-group">
-            <label class="input-label">
-              Current Prototype Stage <span class="req">*</span>
-            </label>
-            <div class="stage-grid">
-              <label class="stage-pill">
-                <input type="radio" name="stage" value="Concept / Idea" checked />
-                <span class="stage-label">Concept / Idea</span>
-              </label>
-              <label class="stage-pill">
-                <input type="radio" name="stage" value="3D CAD Render" />
-                <span class="stage-label">3D CAD Render</span>
-              </label>
-              <label class="stage-pill">
-                <input type="radio" name="stage" value="Working Prototype" />
-                <span class="stage-label">Working Prototype</span>
-              </label>
-              <label class="stage-pill">
-                <input type="radio" name="stage" value="Ready for Tooling" />
-                <span class="stage-label">Ready for Tooling</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Pitch / Link / Details -->
-          <div class="input-group">
-            <label for="details" class="input-label">
-              Tell us about your product or share a link <span class="opt">(Optional)</span>
+          <!-- What excites you most about Ideakicks? -->
+          <div class="field-group">
+            <label for="excitement" class="field-label">
+              What excites you most about Ideakicks? <span class="req">*</span>
             </label>
             <textarea 
-              id="details" 
-              name="details" 
+              id="excitement" 
+              name="excitement" 
               rows="3" 
-              placeholder="Brief description of what you're building, portfolio link, or Google Drive / Figma CAD link..." 
-              class="text-input textarea"
+              required
+              maxlength="800"
+              placeholder="Tell us what you're planning to build or what brought you here..." 
+              class="field-input field-textarea"
             ></textarea>
+            <span class="field-hint">Max 800 characters</span>
           </div>
 
           <!-- Submit Button -->
-          <button type="submit" id="submit-btn" class="submit-button">
-            <span class="btn-text">Apply for Founding Creator Cohort →</span>
-            <span class="btn-spinner" style="display: none;"></span>
+          <button type="submit" id="submit-btn" class="submit-btn">
+            <span class="btn-label">Join Priority Waitlist →</span>
+            <span class="btn-spinner" style="display: none;" aria-hidden="true"></span>
           </button>
 
-          <!-- Reassurance Footer -->
-          <div class="form-reassurance">
-            <span class="shield-icon">🛡️</span>
-            <span>Zero platform fee · Escrow-protected pledges · 48h response</span>
-          </div>
+          <p class="security-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2A7A37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>Zero spam · Escrow guaranteed · Your information is completely secure</span>
+          </p>
+
         </form>
 
-        <!-- Confirmed / Success State -->
-        <div id="success-state" class="success-state" style="display: none;">
-          <div class="success-badge">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Confirmed Success State -->
+        <div id="confirmed-state" class="confirmed-state" style="display: none;" role="status">
+          <div class="confirmed-badge">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M20 6L9 17l-5-5"></path>
             </svg>
           </div>
-          <h3 class="success-title">Application Received!</h3>
-          <p class="success-desc">
-            Thank you, <strong id="success-name">Creator</strong>. Your project <strong id="success-project">Your Project</strong> has been entered into the Founding Creator review queue.
+          <h3 class="confirmed-title">You're on the list!</h3>
+          <p class="confirmed-text">
+            Thank you, <strong id="confirmed-name">Creator</strong>. Your spot has been secured in the Ideakicks priority rollout queue.
           </p>
-          <div class="success-box">
-            <p class="success-box-title">What happens next?</p>
-            <p class="success-box-body">
-              Our review board (Bodhi) will review your project details and reach out via WhatsApp/Email within <strong>48 hours</strong> with launch onboarding instructions.
-            </p>
+          <div class="confirmed-info">
+            <span class="confirmed-label">STATUS</span>
+            <p class="confirmed-desc">We will reach out via WhatsApp and Email as your cohort opens.</p>
           </div>
-          <button type="button" id="reset-btn" class="reset-button">
-            Submit Another Project
+          <button type="button" id="reset-btn" class="reset-btn">
+            Submit Another Reservation
           </button>
         </div>
 
@@ -217,17 +166,12 @@
 
     <!-- ── Minimalist Footer ──────────────────────────────────────────── -->
     <footer class="page-footer">
-      <p class="copyright">
-        © 2026 Ideakicks Labs Pvt. Ltd. · Motion starts here.
-      </p>
-      <p class="contact-line">
-        Questions? Contact us at <a href="mailto:hello@ideakicks.com">hello@ideakicks.com</a>
-      </p>
+      <p class="footer-copy">© 2026 Ideakicks Labs Pvt. Ltd. · Motion starts here.</p>
+      <p class="footer-contact">Questions? Reach us at <a href="mailto:hello@ideakicks.com">hello@ideakicks.com</a></p>
     </footer>
 
   </main>
 
-  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
