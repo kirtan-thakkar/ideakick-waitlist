@@ -43,21 +43,30 @@ function sanitizeText(input, maxLength = 800) {
 }
 
 function validateEmail(email) {
-  // RFC 5322 compliant regex for safe email checking
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
-  return emailRegex.test(email) && email.length <= 120;
+  if (!email || typeof email !== "string") return false;
+  const trimmed = email.trim().toLowerCase();
+  
+  if (trimmed.length < 5 || trimmed.length > 100) return false;
+  
+  // Block spaces, consecutive dots, leading or trailing dots
+  if (trimmed.includes(" ") || trimmed.includes("..") || trimmed.startsWith(".") || trimmed.endsWith(".")) {
+    return false;
+  }
+  
+  // Strict RFC format: requires username, @, domain name, and valid 2+ letter alphabetic TLD
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,})+$/;
+  return emailRegex.test(trimmed);
 }
 
 function validatePhone(phone) {
-  // Extract only numbers and check length
+  if (!phone || typeof phone !== "string") return false;
   const digitsOnly = phone.replace(/\D/g, "");
-  return digitsOnly.length >= 8 && digitsOnly.length <= 15;
+  return digitsOnly.length >= 10 && digitsOnly.length <= 15;
 }
 
-function showError(message, inputElement = null) {
+function showError(message, inputElement = null, shouldScroll = true) {
   errorBanner.textContent = message;
   errorBanner.style.display = "block";
-  errorBanner.scrollIntoView({ behavior: "smooth", block: "nearest" });
 
   // Clear previous error styles
   [nameInput, emailInput, phoneInput, excitementInput].forEach((el) => {
@@ -66,7 +75,10 @@ function showError(message, inputElement = null) {
 
   if (inputElement) {
     inputElement.classList.add("has-error");
-    inputElement.focus();
+    if (shouldScroll) {
+      errorBanner.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      inputElement.focus();
+    }
   }
 }
 
@@ -77,6 +89,98 @@ function clearError() {
     el.classList.remove("has-error");
   });
 }
+
+// ─── Real-Time Phone Restriction (Strict Numbers Only) ─────────────────────────
+phoneInput.addEventListener("keydown", (e) => {
+  // Allow control / navigation keys
+  const allowed = [
+    "Backspace", "Delete", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown",
+    "Tab", "Enter", "Escape", "Home", "End"
+  ];
+  if (allowed.includes(e.key)) return;
+
+  // Allow standard shortcuts (Ctrl/Cmd + A, C, V, X, Z)
+  if (e.ctrlKey || e.metaKey) return;
+
+  // Allow '+' only at position 0 if not already present
+  if (e.key === "+") {
+    if (phoneInput.selectionStart === 0 && !phoneInput.value.includes("+")) {
+      return;
+    }
+    e.preventDefault();
+    return;
+  }
+
+  // Allow only digits 0-9
+  if (/^[0-9]$/.test(e.key)) {
+    const digitsOnly = phoneInput.value.replace(/\D/g, "");
+    const isSelectionReplacing = phoneInput.selectionStart !== phoneInput.selectionEnd;
+    // Cap at 15 digits
+    if (digitsOnly.length >= 15 && !isSelectionReplacing) {
+      e.preventDefault();
+    }
+    return;
+  }
+
+  // Block any non-digit character (letters, spaces, punctuation, symbols)
+  e.preventDefault();
+});
+
+phoneInput.addEventListener("input", (e) => {
+  const raw = e.target.value;
+  const hasLeadingPlus = raw.startsWith("+");
+  
+  // Strip everything except numbers
+  let digits = raw.replace(/\D/g, "");
+  if (digits.length > 15) {
+    digits = digits.slice(0, 15);
+  }
+  
+  e.target.value = hasLeadingPlus ? "+" + digits : digits;
+
+  // Auto clear error state when input reaches valid length
+  if (phoneInput.classList.contains("has-error") && digits.length >= 10) {
+    phoneInput.classList.remove("has-error");
+    clearError();
+  }
+});
+
+phoneInput.addEventListener("blur", () => {
+  const val = phoneInput.value.trim();
+  if (val && !validatePhone(val)) {
+    showError("Please enter a valid phone number (at least 10 digits).", phoneInput, false);
+  }
+});
+
+// ─── Real-Time Email Validation & Feedback ─────────────────────────────────────
+emailInput.addEventListener("input", () => {
+  if (emailInput.classList.contains("has-error") && validateEmail(emailInput.value)) {
+    emailInput.classList.remove("has-error");
+    clearError();
+  }
+});
+
+emailInput.addEventListener("blur", () => {
+  const val = emailInput.value.trim();
+  if (val && !validateEmail(val)) {
+    showError("Please enter a valid email address (e.g. name@domain.com).", emailInput, false);
+  }
+});
+
+// ─── Real-Time Feedback for Other Fields ───────────────────────────────────────
+nameInput.addEventListener("input", () => {
+  if (nameInput.classList.contains("has-error") && nameInput.value.trim().length >= 2) {
+    nameInput.classList.remove("has-error");
+    clearError();
+  }
+});
+
+excitementInput.addEventListener("input", () => {
+  if (excitementInput.classList.contains("has-error") && excitementInput.value.trim().length >= 5) {
+    excitementInput.classList.remove("has-error");
+    clearError();
+  }
+});
 
 // ─── Form Submission Event ─────────────────────────────────────────────────────
 form.addEventListener("submit", async (e) => {
@@ -95,7 +199,7 @@ form.addEventListener("submit", async (e) => {
   const lastSubmit = sessionStorage.getItem(LAST_SUBMIT_KEY);
   const now = Date.now();
   if (lastSubmit && now - parseInt(lastSubmit, 10) < COOLDOWN_SECONDS * 1000) {
-    showError("Please wait a few seconds before submitting again.");
+    showError("Please wait a few seconds before submitting again.", null, true);
     return;
   }
 
@@ -107,27 +211,27 @@ form.addEventListener("submit", async (e) => {
 
   const name = sanitizeText(rawName, 80);
   const email = rawEmail.trim().toLowerCase();
-  const phone = sanitizeText(rawPhone, 20);
+  const phone = rawPhone.trim();
   const excitement = sanitizeText(rawExcitement, 800);
 
   // 4. Strict Validation
   if (!name || name.length < 2) {
-    showError("Please enter your full name (at least 2 characters).", nameInput);
+    showError("Please enter your full name (at least 2 characters).", nameInput, true);
     return;
   }
 
   if (!validateEmail(email)) {
-    showError("Please enter a valid email address (e.g. name@domain.com).", emailInput);
+    showError("Please enter a valid email address (e.g. name@domain.com).", emailInput, true);
     return;
   }
 
   if (!validatePhone(phone)) {
-    showError("Please enter a valid phone number with country code (at least 8 digits).", phoneInput);
+    showError("Please enter a valid phone number (at least 10 digits).", phoneInput, true);
     return;
   }
 
   if (!excitement || excitement.length < 5) {
-    showError("Please tell us what excites you most about Ideakicks (at least 5 characters).", excitementInput);
+    showError("Please tell us what excites you most about Ideakicks (at least 5 characters).", excitementInput, true);
     return;
   }
 

@@ -85,8 +85,10 @@
               id="email" 
               name="email" 
               required 
-              maxlength="120"
+              maxlength="100"
               autocomplete="email"
+              inputmode="email"
+              spellcheck="false"
               placeholder="you@domain.com" 
               class="field-input" 
             />
@@ -102,11 +104,14 @@
               id="phone" 
               name="phone" 
               required 
-              maxlength="20"
+              maxlength="16"
               autocomplete="tel"
-              placeholder="+91 98765 43210" 
+              inputmode="tel"
+              pattern="^\+?[0-9]{10,15}$"
+              placeholder="+91 9876543210" 
               class="field-input" 
             />
+            <span class="field-hint">Numbers only (min 10 digits)</span>
           </div>
 
           <!-- What excites you most about Ideakicks? -->
