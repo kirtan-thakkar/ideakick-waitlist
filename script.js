@@ -38,6 +38,11 @@ function sanitizeText(input, maxLength = 800) {
   // Normalize whitespace
   clean = clean.replace(/[\r\n\t]+/g, " ").trim();
   
+  // Prevent Spreadsheet Formula Injection (neutralize leading =, +, -, @)
+  if (/^[=+\-@]/.test(clean)) {
+    clean = "'" + clean;
+  }
+
   // Cut to maximum allowed length
   return clean.slice(0, maxLength);
 }

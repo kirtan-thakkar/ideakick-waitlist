@@ -48,10 +48,10 @@ function doPost(e) {
     }
 
     var timestamp = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-    var name = data.name || "";
-    var email = data.email || "";
-    var phone = data.phone || "";
-    var excitement = data.excitement || "";
+    var name = cleanField(data.name || "");
+    var email = cleanField(data.email || "");
+    var phone = cleanPhone(data.phone || "");
+    var excitement = cleanField(data.excitement || "");
 
     // Append lead row
     sheet.appendRow([
@@ -73,6 +73,23 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// Security: Neutralize spreadsheet formula injection (=, +, -, @)
+function cleanField(val) {
+  if (typeof val !== "string") return "";
+  val = val.trim();
+  if (/^[=+\-@]/.test(val)) {
+    return "'" + val;
+  }
+  return val;
+}
+
+// Format phone with leading apostrophe so Google Sheets keeps '+' and doesn't treat as math
+function cleanPhone(val) {
+  if (typeof val !== "string") return "";
+  val = val.trim();
+  return "'" + val;
 }
 
 function doGet(e) {
