@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ideakicks | Founding Creator Waitlist</title>
+  <meta name="description" content="India's curated launchpad for tangible hardware, consumer electronics, and physical design. Launch with 0% platform commission and milestone escrow." />
+  
+  <!-- Fontshare Clash Display & Satoshi (Identical to main website) -->
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" />
+  
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Ambient background glow -->
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <main class="page-container">
+    
+    <!-- ── Center Header: Logo & Intro ────────────────────────────────── -->
+    <header class="hero-header">
+      <!-- Centered Ideakicks Logo -->
+      <a href="https://ideakicks.com" class="brand-logo" aria-label="Ideakicks Home">
+        <img src="logo-mark.svg" alt="Ideakicks Logo Mark" class="logo-mark" width="34" height="42" />
+        <span class="logo-text">ideakicks<span class="logo-dot">.</span></span>
+      </a>
+
+      <!-- Status Pill -->
+      <div class="status-pill">
+        <span class="pulse-dot">
+          <span class="ping"></span>
+          <span class="solid"></span>
+        </span>
+        <span>Founding Creator Cohort · Limited to 100 Campaigns</span>
+      </div>
+
+      <!-- Title & Subtitle -->
+      <h1 class="hero-title">
+        Bring your physical idea to <em class="italic-highlight">life.</em>
+      </h1>
+      <p class="hero-subtitle">
+        Ideakicks is India's launchpad for tangible craft, consumer hardware, and physical innovation. We help creators validate, fund, and manufacture real products with milestone-driven escrow protection.
+      </p>
+
+      <!-- 3 Core Founding Privileges -->
+      <div class="privileges-strip">
+        <div class="privilege-item">
+          <span class="privilege-icon">✨</span>
+          <span class="privilege-text"><strong>₹0 Platform Fee</strong> for first 100 creators</span>
+        </div>
+        <div class="privilege-item">
+          <span class="privilege-icon">🛡️</span>
+          <span class="privilege-text"><strong>48h 1-on-1 Pitch</strong> & prototype review</span>
+        </div>
+        <div class="privilege-item">
+          <span class="privilege-icon">🏭</span>
+          <span class="privilege-text"><strong>Vetted Guild</strong> tooling & supply chain</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Creator Waitlist Form Container ────────────────────────────── -->
+    <section class="form-section">
+      <div class="form-card">
+        
+        <!-- Form State -->
+        <form id="creator-form" class="creator-form" autocomplete="on">
+          <div class="form-header">
+            <span class="form-eyebrow">CREATOR APPLICATION</span>
+            <h2 class="form-title">Join the Founding Creator Cohort</h2>
+            <p class="form-desc">
+              Fill in your details below. Our team reviews all prototypes within 48 hours.
+            </p>
+          </div>
+
+          <!-- Full Name -->
+          <div class="input-group">
+            <label for="name" class="input-label">
+              Full Name <span class="req">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              required 
+              placeholder="e.g. Maya Sharma" 
+              class="text-input" 
+            />
+          </div>
+
+          <!-- Email -->
+          <div class="input-group">
+            <label for="email" class="input-label">
+              Email Address <span class="req">*</span>
+            </label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              required 
+              placeholder="you@domain.com" 
+              class="text-input" 
+            />
+          </div>
+
+          <!-- Phone / WhatsApp -->
+          <div class="input-group">
+            <label for="phone" class="input-label">
+              Phone / WhatsApp Number <span class="req">*</span>
+            </label>
+            <input 
+              type="tel" 
+              id="phone" 
+              name="phone" 
+              required 
+              placeholder="+91 98765 43210" 
+              class="text-input" 
+            />
+          </div>
+
+          <!-- Project / Product Name -->
+          <div class="input-group">
+            <label for="project_name" class="input-label">
+              Project / Product Name <span class="req">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="project_name" 
+              name="project_name" 
+              required 
+              placeholder="e.g. Evo-AIR or Smart Deadbolt" 
+              class="text-input" 
+            />
+          </div>
+
+          <!-- Prototype Stage (Interactive Pills) -->
+          <div class="input-group">
+            <label class="input-label">
+              Current Prototype Stage <span class="req">*</span>
+            </label>
+            <div class="stage-grid">
+              <label class="stage-pill">
+                <input type="radio" name="stage" value="Concept / Idea" checked />
+                <span class="stage-label">Concept / Idea</span>
+              </label>
+              <label class="stage-pill">
+                <input type="radio" name="stage" value="3D CAD Render" />
+                <span class="stage-label">3D CAD Render</span>
+              </label>
+              <label class="stage-pill">
+                <input type="radio" name="stage" value="Working Prototype" />
+                <span class="stage-label">Working Prototype</span>
+              </label>
+              <label class="stage-pill">
+                <input type="radio" name="stage" value="Ready for Tooling" />
+                <span class="stage-label">Ready for Tooling</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Pitch / Link / Details -->
+          <div class="input-group">
+            <label for="details" class="input-label">
+              Tell us about your product or share a link <span class="opt">(Optional)</span>
+            </label>
+            <textarea 
+              id="details" 
+              name="details" 
+              rows="3" 
+              placeholder="Brief description of what you're building, portfolio link, or Google Drive / Figma CAD link..." 
+              class="text-input textarea"
+            ></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="submit-btn" class="submit-button">
+            <span class="btn-text">Apply for Founding Creator Cohort →</span>
+            <span class="btn-spinner" style="display: none;"></span>
+          </button>
+
+          <!-- Reassurance Footer -->
+          <div class="form-reassurance">
+            <span class="shield-icon">🛡️</span>
+            <span>Zero platform fee · Escrow-protected pledges · 48h response</span>
+          </div>
+        </form>
+
+        <!-- Confirmed / Success State -->
+        <div id="success-state" class="success-state" style="display: none;">
+          <div class="success-badge">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6L9 17l-5-5"></path>
+            </svg>
+          </div>
+          <h3 class="success-title">Application Received!</h3>
+          <p class="success-desc">
+            Thank you, <strong id="success-name">Creator</strong>. Your project <strong id="success-project">Your Project</strong> has been entered into the Founding Creator review queue.
+          </p>
+          <div class="success-box">
+            <p class="success-box-title">What happens next?</p>
+            <p class="success-box-body">
+              Our review board (Bodhi) will review your project details and reach out via WhatsApp/Email within <strong>48 hours</strong> with launch onboarding instructions.
+            </p>
+          </div>
+          <button type="button" id="reset-btn" class="reset-button">
+            Submit Another Project
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Minimalist Footer ──────────────────────────────────────────── -->
+    <footer class="page-footer">
+      <p class="copyright">
+        © 2026 Ideakicks Labs Pvt. Ltd. · Motion starts here.
+      </p>
+      <p class="contact-line">
+        Questions? Contact us at <a href="mailto:hello@ideakicks.com">hello@ideakicks.com</a>
+      </p>
+    </footer>
+
+  </main>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>
